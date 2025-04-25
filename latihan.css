@@ -1,3 +1,4 @@
+/* Base Styles (Mobile First) */
 * {
   margin: 0;
   padding: 0;
@@ -7,7 +8,7 @@
 }
 
 html {
-  font-size: 100%;
+  font-size: 16px; /* Menggunakan px sebagai base untuk konsistensi */
 }
 
 body {
@@ -22,28 +23,30 @@ body {
 header {
   background-color: #880e4f;
   color: white;
-  padding: 20px;
+  padding: 1rem;
   text-align: center;
-  font-size: 2vw;
+  font-size: 1.5rem; /* Menggunakan rem untuk font size */
   position: relative;
 }
 
 .menu-toggle {
-  display: none;
+  display: none; /* Awalnya disembunyikan */
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 1rem;
+  right: 1rem;
   font-size: 1.5rem;
   cursor: pointer;
+  z-index: 100;
 }
 
 .toggle-mode {
   text-align: center;
-  margin: 15px;
+  margin: 1rem auto;
+  width: 90%;
 }
 
 .toggle-mode button {
-  padding: 10px 20px;
+  padding: 0.75rem 1.5rem;
   background-color: #4a148c;
   color: white;
   border: none;
@@ -51,6 +54,8 @@ header {
   cursor: pointer;
   font-weight: bold;
   font-size: 1rem;
+  width: 100%;
+  max-width: 300px;
 }
 
 .toggle-mode button:hover {
@@ -60,28 +65,34 @@ header {
 .container {
   display: flex;
   flex: 1;
+  flex-direction: column; /* Mobile: kolom */
   min-height: 0;
 }
 
 .sidebar {
-  width: 220px;
+  width: 100%;
   background-color: #fce4ec;
-  border-right: 3px solid #f48fb1;
-  padding: 15px;
+  border-bottom: 3px solid #f48fb1;
+  padding: 1rem;
   overflow-y: auto;
+  display: none; /* Awalnya disembunyikan di mobile */
+}
+
+.sidebar.active {
+  display: block; /* Muncul saat toggle diaktifkan */
 }
 
 .content {
   flex: 1;
   background-color: #fff0f6;
-  padding: 15px;
+  padding: 1rem;
   overflow: hidden;
 }
 
 iframe {
   width: 100%;
-  height: 100%;
-  min-height: 600px;
+  height: 60vh;
+  min-height: 400px;
   border: none;
   border-radius: 10px;
   background-color: white;
@@ -91,7 +102,8 @@ iframe {
 h3 {
   text-align: center;
   color: #ad1457;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
+  font-size: 1.25rem;
 }
 
 ul {
@@ -100,17 +112,19 @@ ul {
 }
 
 ul li {
-  margin-bottom: 12px;
+  margin-bottom: 0.75rem;
 }
 
 ul li a {
   display: block;
   background-color: #f8bbd0;
   color: #4a148c;
-  padding: 10px;
+  padding: 0.75rem;
   text-decoration: none;
   font-weight: bold;
   border-radius: 8px;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
 }
 
 ul li a:hover {
@@ -126,46 +140,63 @@ ul li a.active {
   transform: scale(1.05);
 }
 
-@media (max-width: 1024px) {
-  .sidebar {
-    width: 200px;
-  }
-}
-
-@media (max-width: 768px) {
+/* Tablet (768px ke atas) */
+@media (min-width: 768px) {
   html {
-    font-size: 90%;
+    font-size: 17px;
   }
 
   .container {
-    flex-direction: row; /* Memastikan sidebar dan konten sejajar */
-  }
-
-  .menu-toggle {
-    display: block;
+    flex-direction: row; /* Sidebar dan content sejajar */
   }
 
   .sidebar {
-    width: 220px; /* Sidebar lebar tetap */
-    border-right: none;
-    border-bottom: 3px solid #f48fb1;
-    display: block; /* Menampilkan sidebar di mobile */
+    width: 220px;
+    display: block;
+    border-right: 3px solid #f48fb1;
+    border-bottom: none;
   }
 
   .content {
-    padding: 10px;
-    min-height: 60vh;
+    padding: 1.5rem;
   }
 
   iframe {
-    min-height: 400px;
-    height: 60vh; /* Memberikan tinggi tetap pada iframe */
+    height: 75vh;
   }
 
-  .toggle-mode button {
-    width: 90%;
-    max-width: 300px;
-    margin: 0 auto;
+  .menu-toggle {
+    display: none; /* Sembunyikan toggle di tablet/desktop */
+  }
+}
+
+/* Desktop (992px ke atas) */
+@media (min-width: 992px) {
+  html {
+    font-size: 18px;
+  }
+
+  header {
+    padding: 1.25rem;
+    font-size: 1.75rem;
+  }
+
+  .sidebar {
+    width: 250px;
+    padding: 1.5rem;
+  }
+
+  .content {
+    padding: 2rem;
+  }
+
+  iframe {
+    height: 80vh;
+  }
+
+  ul li a {
+    padding: 1rem;
+    font-size: 1rem;
   }
 }
 
@@ -206,3 +237,16 @@ ul li a.active {
 .dark-mode .toggle-mode button:hover {
   background-color: #ad1457;
 }
+
+/* Untuk perangkat sangat kecil (kurang dari 400px) */
+@media (max-width: 400px) {
+  html {
+    font-size: 14px;
+  }
+
+  iframe {
+    min-height: 300px;
+    height: 50vh;
+  }
+}
+
