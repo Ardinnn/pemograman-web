@@ -5,6 +5,7 @@
   <title>Kelompok III</title>
   <link rel="stylesheet" href="latihan.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
   <style>
     * {
       margin: 0;
@@ -17,6 +18,9 @@
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(to right, #f8bbd0, #fce4ec);
       color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     header {
@@ -47,25 +51,25 @@
       background-color: #6a1b9a;
     }
 
-    table {
-      width: 100%;
-      height: calc(100vh - 160px); /* Header + Button tinggi */
-      border-collapse: collapse;
+    .container {
+      display: flex;
+      flex: 1;
+      min-height: 0;
     }
 
-    td {
-      vertical-align: top;
-      padding: 15px;
-    }
-
-    td.sidebar {
+    .sidebar {
       width: 220px;
       background-color: #fce4ec;
       border-right: 3px solid #f48fb1;
+      padding: 15px;
+      overflow-y: auto;
     }
 
-    td.content {
+    .content {
+      flex: 1;
       background-color: #fff0f6;
+      padding: 15px;
+      overflow: hidden;
     }
 
     iframe {
@@ -108,23 +112,24 @@
       transform: translateX(5px);
     }
 
+    /* Responsive untuk HP */
     @media (max-width: 768px) {
-      table, tr, td {
-        display: block;
-        width: 100%;
+      .container {
+        flex-direction: column;
       }
 
-      td.sidebar {
+      .sidebar {
+        width: 100%;
         border-right: none;
         border-bottom: 3px solid #f48fb1;
       }
 
-      iframe {
+      .content {
         height: 60vh;
       }
     }
 
-    /* Dark mode styling */
+    /* Dark Mode */
     .dark-mode {
       background: #1c1c1c;
       color: #f1f1f1;
@@ -135,12 +140,12 @@
       color: white;
     }
 
-    .dark-mode td.sidebar {
+    .dark-mode .sidebar {
       background-color: #2c2c2c;
       border-color: #555;
     }
 
-    .dark-mode td.content {
+    .dark-mode .content {
       background-color: #121212;
     }
 
@@ -174,30 +179,28 @@
   <button onclick="toggleDarkMode()">🌓 Mode Gelap / Terang</button>
 </div>
 
-<table>
-  <tr>
-    <td class="sidebar">
-      <h3>Menu Tugas</h3>
-      <ul>
-        <li><a href="home.html" target="konten">🏠 HOME</a></li>
-        <li><a href="member1.html" target="konten">👤 Anggota</a></li>
-        <li><a href="text.html" target="konten">📘 Tugas 1</a></li>
-        <li><a href="lattabel.html" target="konten">📘 Tugas 2</a></li>
-        <li><a href="latform.html" target="konten">📘 Tugas 3</a></li>
-        <li><a href="frame.html" target="konten">📘 Tugas 4</a></li>
-        <li><a href="latexternal.html" target="konten">🎨 Tugas 5</a></li>
-        <li><a href="internalstylesheet.html" target="konten">🎨 Tugas 6</a></li>
-        <li><a href="layout.html" target="konten">📘 Tugas 7</a></li>
-        <li><a href="internal.html" target="konten">📘 Tugas 8</a></li>
-        <li><a href="keterangan.html" target="konten">📘 Tugas 9</a></li>
-      </ul>
-    </td>
+<div class="container">
+  <div class="sidebar">
+    <h3>Menu Tugas</h3>
+    <ul>
+      <li><a href="home.html" target="konten">🏠 HOME</a></li>
+      <li><a href="member1.html" target="konten">👤 Anggota</a></li>
+      <li><a href="text.html" target="konten">📘 Tugas 1</a></li>
+      <li><a href="lattabel.html" target="konten">📘 Tugas 2</a></li>
+      <li><a href="latform.html" target="konten">📘 Tugas 3</a></li>
+      <li><a href="frame.html" target="konten">📘 Tugas 4</a></li>
+      <li><a href="latexternal.html" target="konten">🎨 Tugas 5</a></li>
+      <li><a href="internalstylesheet.html" target="konten">🎨 Tugas 6</a></li>
+      <li><a href="layout.html" target="konten">📘 Tugas 7</a></li>
+      <li><a href="internal.html" target="konten">📘 Tugas 8</a></li>
+      <li><a href="keterangan.html" target="konten">📘 Tugas 9</a></li>
+    </ul>
+  </div>
 
-    <td class="content">
-      <iframe name="konten" src="home.html"></iframe>
-    </td>
-  </tr>
-</table>
+  <div class="content">
+    <iframe name="konten" src="home.html"></iframe>
+  </div>
+</div>
 
 <script>
 function toggleDarkMode() {
