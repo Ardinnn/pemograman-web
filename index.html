@@ -5,31 +5,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelompok III</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="latihan.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Tambahan kecil di internal */
-        .menu-toggle.open::after {
-            content: "✖️";
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #f8bbd0, #fce4ec);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #880e4f;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.8rem;
+            position: relative;
+        }
+
+        .menu-toggle {
+            display: none;
+            position: absolute;
+            top: 20px;
+            right: 20px;
             font-size: 1.5rem;
-            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .toggle-mode {
+            text-align: center;
+            margin: 15px;
+        }
+
+        .container-fluid {
+            display: flex;
+            flex: 1;
+            padding: 0;
+        }
+
+        .sidebar {
+            width: 220px;
+            background-color: #fce4ec;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .content {
+            flex: 1;
+            background-color: #fff0f6;
+            padding: 20px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li a {
+            display: block;
+            padding: 10px;
+            background: #f8bbd0;
+            margin-bottom: 10px;
+            text-decoration: none;
+            color: #4a148c;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        ul li a:hover, ul li a.active {
+            background: #d81b60;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        .dark-mode {
+            background: #1c1c1c;
+            color: #f1f1f1;
+        }
+
+        .dark-mode header {
+            background: #333;
+        }
+
+        .dark-mode .sidebar {
+            background: #2c2c2c;
+        }
+
+        .dark-mode .content {
+            background: #121212;
+        }
+
+        @media (max-width: 768px) {
+            .container-fluid {
+                flex-direction: column;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .sidebar {
+                width: 100%;
+                display: none;
+            }
+            .sidebar.active {
+                display: block;
+            }
+            iframe {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                font-size: 1.5rem;
+            }
+            iframe {
+                height: 300px;
+            }
         }
     </style>
 </head>
-
 <body>
 
 <header>
-    🌟 KELOMPOK III 🌟
+    😈 KELOMPOK III 😈
     <div class="menu-toggle" onclick="toggleMenu()">☰</div>
 </header>
 
 <div class="toggle-mode">
-    <button onclick="toggleDarkMode()">🌓 Mode Gelap / Terang</button>
+    <button class="btn btn-primary" onclick="toggleDarkMode()">🌓 Mode Gelap / Terang</button>
 </div>
 
-<div class="container">
+<div class="container-fluid">
     <nav class="sidebar" id="sidebar">
-        <h3>Menu Tugas</h3>
+        <h3 class="text-center">Menu Tugas</h3>
         <ul>
             <li><a href="home.html" target="konten">🏠 HOME</a></li>
             <li><a href="member1.html" target="konten">👤 Anggota</a></li>
@@ -46,7 +166,7 @@
     </nav>
 
     <main class="content">
-        <iframe name="konten" src="home.html" style="margin-top: 10px;"></iframe>
+        <iframe name="konten" src="home.html"></iframe>
     </main>
 </div>
 
@@ -56,10 +176,7 @@ function toggleDarkMode() {
 }
 
 function toggleMenu() {
-    const sidebar = document.getElementById('sidebar');
-    const toggleButton = document.querySelector('.menu-toggle');
-    sidebar.classList.toggle('active');
-    toggleButton.classList.toggle('open');
+    document.getElementById('sidebar').classList.toggle('active');
 }
 </script>
 
