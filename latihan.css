@@ -138,7 +138,7 @@ ul li a.active {
   }
 
   .container {
-    flex-direction: column;
+    flex-direction: row; /* Memastikan sidebar dan konten sejajar */
   }
 
   .menu-toggle {
@@ -146,24 +146,20 @@ ul li a.active {
   }
 
   .sidebar {
-    width: 100%;
+    width: 220px; /* Sidebar lebar tetap */
     border-right: none;
     border-bottom: 3px solid #f48fb1;
-    display: none;
-  }
-
-  .sidebar.active {
-    display: block;
+    display: block; /* Menampilkan sidebar di mobile */
   }
 
   .content {
-    height: auto;
-    min-height: 60vh;
     padding: 10px;
+    min-height: 60vh;
   }
 
   iframe {
     min-height: 400px;
+    height: 60vh; /* Memberikan tinggi tetap pada iframe */
   }
 
   .toggle-mode button {
@@ -173,22 +169,7 @@ ul li a.active {
   }
 }
 
-@media (max-width: 480px) {
-  header {
-    font-size: 1.5rem;
-    padding: 15px;
-  }
-
-  ul li a {
-    padding: 8px;
-    font-size: 14px;
-  }
-
-  iframe {
-    min-height: 300px;
-  }
-}
-
+/* Dark Mode */
 .dark-mode {
   background: #1c1c1c;
   color: #f1f1f1;
