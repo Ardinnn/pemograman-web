@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelompok III</title>
     <link rel="stylesheet" href="latihan.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        /* Base Styles (Mobile First) */
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(to right, #f8bbd0, #fce4ec);
@@ -20,156 +21,123 @@
         header {
             background-color: #880e4f;
             color: white;
-            padding: 20px;
+            padding: 1rem;
             text-align: center;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             position: relative;
         }
 
         .menu-toggle {
-            display: none;
+            display: block; /* Visible on mobile */
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 1rem;
+            right: 1rem;
             font-size: 1.5rem;
             cursor: pointer;
-        }
-
-        .toggle-mode {
-            text-align: center;
-            margin: 15px;
+            z-index: 100;
+            background: none;
+            border: none;
+            color: white;
         }
 
         .container-fluid {
             display: flex;
             flex: 1;
+            flex-direction: column; /* Mobile: column layout */
             padding: 0;
         }
 
         .sidebar {
-            width: 220px;
+            width: 100%;
             background-color: #fce4ec;
-            padding: 15px;
-            overflow-y: auto;
+            border-bottom: 3px solid #f48fb1;
+            padding: 1rem;
+            display: none; /* Hidden by default on mobile */
+        }
+
+        .sidebar.active {
+            display: block; /* Show when toggled */
         }
 
         .content {
             flex: 1;
             background-color: #fff0f6;
-            padding: 20px;
+            padding: 1rem;
         }
 
         iframe {
             width: 100%;
-            height: 600px;
+            height: 60vh;
+            min-height: 300px;
             border: none;
             border-radius: 10px;
             background-color: white;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        ul li a {
-            display: block;
-            padding: 10px;
-            background: #f8bbd0;
-            margin-bottom: 10px;
-            text-decoration: none;
-            color: #4a148c;
-            font-weight: bold;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        ul li a:hover, ul li a.active {
-            background: #d81b60;
-            color: #fff;
-            transform: scale(1.05);
-        }
-
-        .dark-mode {
-            background: #1c1c1c;
-            color: #f1f1f1;
-        }
-
-        .dark-mode header {
-            background: #333;
-        }
-
-        .dark-mode .sidebar {
-            background: #2c2c2c;
-        }
-
-        .dark-mode .content {
-            background: #121212;
-        }
-
-        @media (max-width: 768px) {
+        /* Tablet (768px and up) */
+        @media (min-width: 768px) {
             .container-fluid {
-                flex-direction: column;
+                flex-direction: row; /* Sidebar + content side by side */
             }
+            
             .menu-toggle {
-                display: block;
+                display: none; /* Hide toggle on larger screens */
             }
+            
             .sidebar {
-                width: 100%;
-                display: none;
+                width: 220px;
+                display: block; /* Always visible */
+                border-right: 3px solid #f48fb1;
+                border-bottom: none;
             }
-            .sidebar.active {
-                display: block;
-            }
+            
             iframe {
-                height: 400px;
+                height: 75vh;
             }
         }
 
-        @media (max-width: 480px) {
-            header {
-                font-size: 1.5rem;
+        /* Desktop (992px and up) */
+        @media (min-width: 992px) {
+            .sidebar {
+                width: 250px;
+                padding: 1.5rem;
             }
+            
+            .content {
+                padding: 1.5rem;
+            }
+            
             iframe {
-                height: 300px;
+                height: 80vh;
             }
         }
     </style>
-
-<script>
-    // Kode JavaScript langsung di sini
-    document.querySelector('.menu-toggle').addEventListener('click', function() {
-      document.querySelector('.sidebar').classList.toggle('active');
-    });
-  </script>
 </head>
 <body>
 
 <header>
     😈 KELOMPOK III 😈
-    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <button class="menu-toggle" id="menuToggle">☰</button>
 </header>
-
-<div class="toggle-mode">
-    <button class="btn btn-primary" onclick="toggleDarkMode()">🌓 Mode Gelap / Terang</button>
-</div>
 
 <div class="container-fluid">
     <nav class="sidebar" id="sidebar">
         <h3 class="text-center">Menu Tugas</h3>
         <ul>
             <li><a href="home.html" target="konten">🏠 HOME</a></li>
-            <li><a href="member1.html" target="konten">👤 Anggota</a></li>
-            <li><a href="text.html" target="konten">📘 Tugas 1</a></li>
-            <li><a href="lattabel.html" target="konten">📘 Tugas 2</a></li>
-            <li><a href="latform.html" target="konten">📘 Tugas 3</a></li>
-            <li><a href="frame.html" target="konten">📘 Tugas 4</a></li>
-            <li><a href="latexternal.html" target="konten">🎨 Tugas 5</a></li>
-            <li><a href="internalstylesheet.html" target="konten">🎨 Tugas 6</a></li>
-            <li><a href="layout.html" target="konten">📘 Tugas 7</a></li>
-            <li><a href="internal.html" target="konten">📘 Tugas 8</a></li>
-            <li><a href="keterangan.html" target="konten">📘 Tugas 9</a></li>
+            <li><a href="member1.html" target="konten">👤 Anggota Kelompok</a></li>
+          <li><a href="text.html" target="konten">📘 Tugas 1</a></li>
+          <li><a href="lattabel.html" target="konten">📘 Tugas 2</a></li>
+          <li><a href="latform.html" target="konten">📘 Tugas 3</a></li>
+          <li><a href="frame.html" target="konten">📘 Tugas 4</a></li>
+          <li><a href="latexternal.html" target="konten">🎨 Tugas 5 (External CSS)</a></li>
+          <li><a href="internalstylesheet.html" target="konten">🎨 Tugas 6 (Internal CSS)</a></li>
+          <li><a href="layout.html" target="konten">📘 Tugas 7</a></li>
+          <li><a href="internal.html" target="konten">📘 Tugas 8</a></li>
+          <li><a href="keterangan.html" target="konten">📘 Tugas 9</a></li>
+
+
         </ul>
     </nav>
 
@@ -179,13 +147,23 @@
 </div>
 
 <script>
-function toggleDarkMode() {
-    document.body.classList.toggle("dark-mode");
-}
+    // Single toggle function for menu
+    document.getElementById('menuToggle').addEventListener('click', function() {
+        document.getElementById('sidebar').classList.toggle('active');
+    });
 
-function toggleMenu() {
-    document.getElementById('sidebar').classList.toggle('active');
-}
+    // Remove hover effects on touch devices
+    function hasTouch() {
+        return 'ontouchstart' in document.documentElement || 
+               navigator.maxTouchPoints > 0 || 
+               navigator.msMaxTouchPoints > 0;
+    }
+
+    if (hasTouch()) {
+        document.querySelectorAll('ul li a').forEach(function(el) {
+            el.classList.add('no-hover');
+        });
+    }
 </script>
 
 </body>
