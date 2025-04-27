@@ -55,6 +55,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            height: 60px;
         }
 
         .header-content {
@@ -75,6 +76,7 @@
             cursor: pointer;
             z-index: 1001;
             transition: var(--transition);
+            display: block;
         }
 
         .menu-toggle:hover {
@@ -97,9 +99,9 @@
             background-color: var(--white);
             padding: 1.5rem;
             position: fixed;
-            top: 0;
+            top: 60px; /* Sesuaikan dengan tinggi header */
             left: -280px;
-            height: 100vh;
+            height: calc(100vh - 60px);
             z-index: 999;
             overflow-y: auto;
             transition: var(--transition);
@@ -131,6 +133,7 @@
             font-size: 1.5rem;
             color: var(--primary-color);
             cursor: pointer;
+            display: block;
         }
 
         .nav-menu {
@@ -169,6 +172,7 @@
             padding: 1.5rem;
             width: 100%;
             transition: var(--transition);
+            margin-top: 60px; /* Sesuaikan dengan tinggi header */
         }
 
         .content.shifted {
@@ -177,7 +181,7 @@
 
         .iframe-container {
             width: 100%;
-            height: calc(100vh - 80px);
+            height: calc(100vh - 140px); /* Sesuaikan dengan tinggi header + padding */
             border-radius: 10px;
             overflow: hidden;
             box-shadow: var(--shadow);
@@ -193,10 +197,10 @@
         /* Overlay for mobile */
         .overlay {
             position: fixed;
-            top: 0;
+            top: 60px; /* Sesuaikan dengan tinggi header */
             left: 0;
             width: 100%;
-            height: 100%;
+            height: calc(100% - 60px);
             background-color: rgba(0, 0, 0, 0.5);
             z-index: 998;
             opacity: 0;
@@ -212,28 +216,36 @@
         /* Responsive Adjustments */
         @media (min-width: 992px) {
             .sidebar {
-                position: relative;
+                position: sticky;
+                top: 60px;
                 left: 0;
-                height: auto;
+                height: calc(100vh - 60px);
                 box-shadow: none;
             }
 
             .content {
                 padding: 2rem;
+                margin-top: 0;
             }
 
-            .menu-toggle, .close-sidebar, .overlay {
+            .menu-toggle, .close-sidebar {
                 display: none;
             }
 
             .main-container {
-                padding-top: 1rem;
+                padding-top: 0;
+                gap: 20px;
+            }
+            
+            .content.shifted {
+                transform: none;
             }
         }
 
         @media (max-width: 768px) {
             .sidebar {
                 width: 260px;
+                left: -260px;
             }
 
             .content.shifted {
@@ -249,6 +261,7 @@
 
         .nav-item {
             animation: fadeIn 0.3s ease forwards;
+            opacity: 0;
         }
 
         .nav-item:nth-child(1) { animation-delay: 0.1s; }
@@ -269,7 +282,7 @@
 <header>
     <div class="header-content">
         😈 KELOMPOK III 😈
-        <button class="menu-toggle" id="menuToggle">
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
             <i class="fas fa-bars"></i>
         </button>
     </div>
@@ -281,7 +294,7 @@
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h3 class="sidebar-title">Menu Tugas</h3>
-            <button class="close-sidebar" id="closeSidebar">
+            <button class="close-sidebar" id="closeSidebar" aria-label="Close menu">
                 <i class="fas fa-times"></i>
             </button>
         </div>
@@ -302,7 +315,7 @@
 
     <main class="content" id="mainContent">
         <div class="iframe-container">
-            <iframe name="konten" src="home.html" title="Content Frame"></iframe>
+            <iframe name="konten" src="home.html" title="Content Frame" loading="lazy"></iframe>
         </div>
     </main>
 </div>
@@ -320,6 +333,9 @@
         sidebar.classList.toggle('active');
         overlay.classList.toggle('active');
         mainContent.classList.toggle('shifted');
+        
+        // Prevent scrolling when sidebar is open
+        document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
     }
 
     // Event listeners
@@ -336,18 +352,21 @@
         });
     });
 
-    // Prevent iframe from retaining scroll position
-    window.addEventListener('beforeunload', function() {
-        document.querySelector('iframe').contentWindow.scrollTo(0, 0);
-    });
-
     // Handle window resize
-    window.addEventListener('resize', function() {
+    function handleResize() {
         if (window.innerWidth >= 992) {
             sidebar.classList.remove('active');
             overlay.classList.remove('active');
             mainContent.classList.remove('shifted');
+            document.body.style.overflow = '';
         }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', function() {
+        handleResize();
     });
 </script>
 
