@@ -1,208 +1,374 @@
-<html>
+<!DOCTYPE html>
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kelompok III</title>
-  <link rel="stylesheet" href="latihan.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-      transition: all 0.3s ease;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kelompok III</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #880e4f;
+            --secondary-color: #f48fb1;
+            --light-pink: #fce4ec;
+            --lighter-pink: #fff0f6;
+            --dark-text: #333;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      background: linear-gradient(to right, #f8bbd0, #fce4ec);
-      color: #333;
-      animation: fadeIn 1s ease-in;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+        html {
+            height: 100%;
+            scroll-behavior: smooth;
+        }
 
-    h1 {
-      text-align: center;
-      background-color: #880e4f;
-      color: #fff;
-      padding: 20px 0;
-      margin: 0;
-      letter-spacing: 2px;
-    }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--light-pink), var(--lighter-pink));
+            color: var(--dark-text);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-    .dark-mode {
-      background: #1c1c1c;
-      color: #f1f1f1;
-    }
+        /* Header Styles */
+        header {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.25rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60px;
+        }
 
-    .dark-mode h1 {
-      background-color: #333;
-      color: #fff;
-    }
+        .header-content {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+        }
 
-    .dark-mode td:first-child {
-      background-color: #2c2c2c;
-      border-right: 3px solid #555;
-    }
+        .menu-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+            transition: var(--transition);
+            display: block;
+        }
 
-    .dark-mode td:last-child {
-      background-color: #121212;
-    }
+        .menu-toggle:hover {
+            color: var(--secondary-color);
+        }
 
-    .dark-mode ul li a {
-      background-color: #333;
-      color: #ff80ab;
-    }
+        /* Main Container */
+        .main-container {
+            display: flex;
+            flex: 1;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
 
-    .dark-mode ul li a:hover {
-      background-color: #ff4081;
-      color: #fff;
-    }
+        /* Sidebar Styles */
+        .sidebar {
+            width: 280px;
+            background-color: var(--white);
+            padding: 1.5rem;
+            position: fixed;
+            top: 60px; /* Sesuaikan dengan tinggi header */
+            left: -280px;
+            height: calc(100vh - 60px);
+            z-index: 999;
+            overflow-y: auto;
+            transition: var(--transition);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-    table {
-      width: 100%;
-      height: 90vh;
-      border-collapse: collapse;
-    }
+        .sidebar.active {
+            left: 0;
+        }
 
-    td {
-      vertical-align: top;
-      padding: 20px;
-    }
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
 
-    td:first-child {
-      background-color: #fce4ec;
-      width: 20%;
-      border-right: 3px solid #f48fb1;
-    }
+        .sidebar-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
 
-    td:last-child {
-      width: 80%;
-      background-color: #fff0f6;
-    }
+        .close-sidebar {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            cursor: pointer;
+            display: block;
+        }
 
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      border-radius: 10px;
-      background-color: #fff;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
+        .nav-menu {
+            list-style: none;
+        }
 
-    h3 {
-      color: #ad1457;
-      text-align: center;
-      margin-top: 0;
-    }
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
 
-    ul {
-      list-style: none;
-      padding-left: 0;
-    }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            color: var(--dark-text);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
 
-    ul li {
-      margin: 10px 0;
-    }
+        .nav-link:hover, .nav-link:focus {
+            background-color: var(--secondary-color);
+            color: var(--white);
+            transform: translateX(5px);
+        }
 
-    ul li a {
-      display: block;
-      padding: 10px 15px;
-      background-color: #f8bbd0;
-      color: #4a148c;
-      font-weight: bold;
-      text-decoration: none;
-      border-radius: 8px;
-    }
+        .nav-link i {
+            margin-right: 0.75rem;
+            width: 20px;
+            text-align: center;
+        }
 
-    ul li a:hover {
-      background-color: #f06292;
-      color: #fff;
-      transform: translateX(5px);
-    }
+        /* Content Area */
+        .content {
+            flex: 1;
+            padding: 1.5rem;
+            width: 100%;
+            transition: var(--transition);
+            margin-top: 60px; /* Sesuaikan dengan tinggi header */
+        }
 
-    .toggle-mode {
-      text-align: center;
-      margin: 10px 0;
-    }
+        .content.shifted {
+            transform: translateX(280px);
+        }
 
-    .toggle-mode button {
-      padding: 10px 20px;
-      background-color: #4a148c;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-    }
+        .iframe-container {
+            width: 100%;
+            height: calc(100vh - 140px); /* Sesuaikan dengan tinggi header + padding */
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            background-color: var(--white);
+        }
 
-    .toggle-mode button:hover {
-      background-color: #6a1b9a;
-    }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
 
-    @media (max-width: 768px) {
-      table {
-        display: block;
-      }
+        /* Overlay for mobile */
+        .overlay {
+            position: fixed;
+            top: 60px; /* Sesuaikan dengan tinggi header */
+            left: 0;
+            width: 100%;
+            height: calc(100% - 60px);
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
 
-      td {
-        display: block;
-        width: 100%;
-        height: auto;
-      }
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
 
-      iframe {
-        height: 60vh;
-      }
-    }
-  </style>
+        /* Responsive Adjustments */
+        @media (min-width: 992px) {
+            .sidebar {
+                position: sticky;
+                top: 60px;
+                left: 0;
+                height: calc(100vh - 60px);
+                box-shadow: none;
+            }
+
+            .content {
+                padding: 2rem;
+                margin-top: 0;
+            }
+
+            .menu-toggle, .close-sidebar {
+                display: none;
+            }
+
+            .main-container {
+                padding-top: 0;
+                gap: 20px;
+            }
+            
+            .content.shifted {
+                transform: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 260px;
+                left: -260px;
+            }
+
+            .content.shifted {
+                transform: translateX(260px);
+            }
+        }
+
+        /* Animation for menu items */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .nav-item {
+            animation: fadeIn 0.3s ease forwards;
+            opacity: 0;
+        }
+
+        .nav-item:nth-child(1) { animation-delay: 0.1s; }
+        .nav-item:nth-child(2) { animation-delay: 0.2s; }
+        .nav-item:nth-child(3) { animation-delay: 0.3s; }
+        .nav-item:nth-child(4) { animation-delay: 0.4s; }
+        .nav-item:nth-child(5) { animation-delay: 0.5s; }
+        .nav-item:nth-child(6) { animation-delay: 0.6s; }
+        .nav-item:nth-child(7) { animation-delay: 0.7s; }
+        .nav-item:nth-child(8) { animation-delay: 0.8s; }
+        .nav-item:nth-child(9) { animation-delay: 0.9s; }
+        .nav-item:nth-child(10) { animation-delay: 1.0s; }
+        .nav-item:nth-child(11) { animation-delay: 1.1s; }
+    </style>
 </head>
 <body>
-  <!-- Musik BGM -->
-  <audio autoplay loop hidden>
-    <source src="https://www.youtube.com/watch?v=7yW_uJOpxww" type="audio/mpeg">
-    Browser kamu tidak mendukung audio.
-  </audio>
 
-  <h1>🌟 KELOMPOK III 🌟</h1>
+<header>
+    <div class="header-content">
+        😈 KELOMPOK III 😈
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</header>
 
-  <!-- Tombol Mode Gelap -->
-  <div class="toggle-mode">
-    <button onclick="toggleDarkMode()">🌓 Mode Gelap / Terang</button>
-  </div>
+<div class="overlay" id="overlay"></div>
 
-  <table>
-    <tr>
-      <td>
-        <h3>Tugas P.B.WEB</h3>
-        <ul>
-          <li><a href="home.html" target="konten">🏠 HOME</a></li>
-          <li><a href="member1.html" target="konten">👤 Anggota Kelompok</a></li>
-          <li><a href="text.html" target="konten">📘 Tugas 1</a></li>
-          <li><a href="lattabel.html" target="konten">📘 Tugas 2</a></li>
-          <li><a href="latform.html" target="konten">📘 Tugas 3</a></li>
-          <li><a href="frame.html" target="konten">📘 Tugas 4</a></li>
-          <li><a href="latexternal.html" target="konten">🎨 Tugas 5 (External CSS)</a></li>
-          <li><a href="internalstylesheet.html" target="konten">🎨 Tugas 6 (Internal CSS)</a></li>
-          <li><a href="layout.html" target="konten">📘 Tugas 7</a></li>
-          <li><a href="internal.html" target="konten">📘 Tugas 8</a></li>
-          <li><a href="keterangan.html" target="konten">📘 Tugas 9</a></li>
-
+<div class="main-container">
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3 class="sidebar-title">Menu Tugas</h3>
+            <button class="close-sidebar" id="closeSidebar" aria-label="Close menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="home.html" target="konten" class="nav-link"><i class="fas fa-home"></i> HOME</a></li>
+            <li class="nav-item"><a href="member1.html" target="konten" class="nav-link"><i class="fas fa-users"></i> Anggota Kelompok</a></li>
+            <li class="nav-item"><a href="text.html" target="konten" class="nav-link"><i class="fas fa-book"></i> Tugas 1</a></li>
+            <li class="nav-item"><a href="lattabel.html" target="konten" class="nav-link"><i class="fas fa-table"></i> Tugas 2</a></li>
+            <li class="nav-item"><a href="latform.html" target="konten" class="nav-link"><i class="fas fa-edit"></i> Tugas 3</a></li>
+            <li class="nav-item"><a href="frame.html" target="konten" class="nav-link"><i class="fas fa-window-maximize"></i> Tugas 4</a></li>
+            <li class="nav-item"><a href="latexternal.html" target="konten" class="nav-link"><i class="fas fa-paint-brush"></i> Tugas 5 (External CSS)</a></li>
+            <li class="nav-item"><a href="internalstylesheet.html" target="konten" class="nav-link"><i class="fas fa-code"></i> Tugas 6 (Internal CSS)</a></li>
+            <li class="nav-item"><a href="layout.html" target="konten" class="nav-link"><i class="fas fa-layer-group"></i> Tugas 7</a></li>
+            <li class="nav-item"><a href="internal.html" target="konten" class="nav-link"><i class="fas fa-file-code"></i> Tugas 8</a></li>
+            <li class="nav-item"><a href="keterangan.html" target="konten" class="nav-link"><i class="fas fa-info-circle"></i> Tugas 9</a></li>
         </ul>
-      </td>
-      <td>
-        <iframe name="konten" src="home.html"></iframe>
-      </td>
-    </tr>
-  </table>
+    </nav>
 
-  <script>
-    function toggleDarkMode() {
-      document.body.classList.toggle("dark-mode");
+    <main class="content" id="mainContent">
+        <div class="iframe-container">
+            <iframe name="konten" src="home.html" title="Content Frame" loading="lazy"></iframe>
+        </div>
+    </main>
+</div>
+
+<script>
+    // DOM Elements
+    const menuToggle = document.getElementById('menuToggle');
+    const closeSidebar = document.getElementById('closeSidebar');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const mainContent = document.getElementById('mainContent');
+
+    // Toggle sidebar function
+    function toggleSidebar() {
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+        mainContent.classList.toggle('shifted');
+        
+        // Prevent scrolling when sidebar is open
+        document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
     }
-  </script>
+
+    // Event listeners
+    menuToggle.addEventListener('click', toggleSidebar);
+    closeSidebar.addEventListener('click', toggleSidebar);
+    overlay.addEventListener('click', toggleSidebar);
+
+    // Close sidebar when clicking on nav links (for mobile)
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function() {
+            if (window.innerWidth < 992) {
+                toggleSidebar();
+            }
+        });
+    });
+
+    // Handle window resize
+    function handleResize() {
+        if (window.innerWidth >= 992) {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            mainContent.classList.remove('shifted');
+            document.body.style.overflow = '';
+        }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', function() {
+        handleResize();
+    });
+</script>
+
 </body>
 </html>
