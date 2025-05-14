@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Latihan JavaScript 2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .menu {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        .menu button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .menu button:hover {
+            background-color: #45a049;
+        }
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .calculate-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .calculate-btn:hover {
+            background-color: #45a049;
+        }
+        .result {
+            background-color: #e9f7ef;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            display: none;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Latihan JavaScript</h1>
+    
+    <div class="menu">
+        <button onclick="showForm(1)">Cicilan</button>
+        <button onclick="showForm(2)">Diskon</button>
+        <button onclick="showForm(3)">Bunga</button>
+        <button onclick="showForm(4)">Polri</button>
+    </div>
+    
+    <!-- Form 1: Cicilan -->
+    <div id="form1" class="form-container">
+        <h2>Hitung Cicilan</h2>
+        <div class="form-group">
+            <label for="harga-barang">Harga Barang (Rp):</label>
+            <input type="number" id="harga-barang" placeholder="Contoh: 5000000">
+        </div>
+        <div class="form-group">
+            <label for="besar-cicilan">Besar Cicilan per Bulan (Rp):</label>
+            <input type="number" id="besar-cicilan" placeholder="Contoh: 500000">
+        </div>
+        <div class="form-group">
+            <label for="lama-cicilan">Lama Cicilan (bulan):</label>
+            <input type="number" id="lama-cicilan" placeholder="Contoh: 12">
+        </div>
+        <button class="calculate-btn" onclick="hitungCicilan()">Hitung Cicilan</button>
+        <div id="result1" class="result"></div>
+    </div>
+    
+    <!-- Form 2: Diskon -->
+    <div id="form2" class="form-container" style="display:none;">
+        <h2>Hitung Diskon</h2>
+        <div class="form-group">
+            <label for="harga-diskon">Harga Barang (Rp):</label>
+            <input type="number" id="harga-diskon" placeholder="Contoh: 100000">
+        </div>
+        <div class="form-group">
+            <label for="jumlah-barang">Jumlah Barang:</label>
+            <input type="number" id="jumlah-barang" placeholder="Contoh: 3">
+        </div>
+        <button class="calculate-btn" onclick="hitungDiskon()">Hitung Diskon</button>
+        <div id="result2" class="result"></div>
+    </div>
+    
+    <!-- Form 3: Bunga -->
+    <div id="form3" class="form-container" style="display:none;">
+        <h2>Hitung Bunga Majemuk</h2>
+        <div class="form-group">
+            <label for="tabungan-awal">Tabungan Awal (Rp):</label>
+            <input type="number" id="tabungan-awal" placeholder="Contoh: 1000000">
+        </div>
+        <div class="form-group">
+            <label for="bunga">Bunga per Bulan (%):</label>
+            <input type="number" id="bunga" placeholder="Contoh: 5">
+        </div>
+        <div class="form-group">
+            <label for="lama-tabungan">Lama Menabung (bulan):</label>
+            <input type="number" id="lama-tabungan" placeholder="Contoh: 12">
+        </div>
+        <button class="calculate-btn" onclick="hitungBunga()">Hitung Bunga</button>
+        <div id="result3" class="result"></div>
+    </div>
+    
+    <!-- Form 4: Polri -->
+    <div id="form4" class="form-container" style="display:none;">
+        <h2>Penerimaan Polri</h2>
+        <div class="form-group">
+            <label for="nama">Nama Lengkap:</label>
+            <input type="text" id="nama" placeholder="Masukkan nama lengkap">
+        </div>
+        <div class="form-group">
+            <label for="jenis-kelamin">Jenis Kelamin:</label>
+            <select id="jenis-kelamin">
+                <option value="">Pilih Jenis Kelamin</option>
+                <option value="L">Laki-laki</option>
+                <option value="P">Perempuan</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="tinggi-badan">Tinggi Badan (cm):</label>
+            <input type="number" id="tinggi-badan" placeholder="Contoh: 170">
+        </div>
+        <div class="form-group">
+            <label for="berat-badan">Berat Badan (kg):</label>
+            <input type="number" id="berat-badan" placeholder="Contoh: 60">
+        </div>
+        <div class="form-group">
+            <label for="ipk">IPK:</label>
+            <input type="number" step="0.01" id="ipk" placeholder="Contoh: 3.5" min="0" max="4">
+        </div>
+        <div class="form-group">
+            <label for="pendidikan">Pendidikan Terakhir:</label>
+            <select id="pendidikan">
+                <option value="">Pilih Pendidikan</option>
+                <option value="SMA">SMA/SMK</option>
+                <option value="D3">D-III</option>
+                <option value="S1">S1/D-IV</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="usia">Usia:</label>
+            <input type="number" id="usia" placeholder="Contoh: 22">
+        </div>
+        <button class="calculate-btn" onclick="cekPenerimaanPolri()">Cek Kelayakan</button>
+        <div id="result4" class="result"></div>
+    </div>
+
+    <script>
+        // Fungsi untuk menampilkan form yang dipilih
+        function showForm(formNumber) {
+            // Sembunyikan semua form
+            document.getElementById('form1').style.display = 'none';
+            document.getElementById('form2').style.display = 'none';
+            document.getElementById('form3').style.display = 'none';
+            document.getElementById('form4').style.display = 'none';
+            
+            // Tampilkan form yang dipilih
+            document.getElementById('form' + formNumber).style.display = 'block';
+        }
+        
+        // Fungsi 1: Hitung Cicilan
+        function hitungCicilan() {
+            const harga = parseFloat(document.getElementById('harga-barang').value);
+            const cicilan = parseFloat(document.getElementById('besar-cicilan').value);
+            const lama = parseInt(document.getElementById('lama-cicilan').value);
+            
+            if (isNaN(harga) || isNaN(cicilan) || isNaN(lama)) {
+                alert("Harap isi semua field dengan benar!");
+                return;
+            }
+            
+            let html = `<h3>Rincian Cicilan</h3>
+                       <p>Total Harga: Rp${harga.toLocaleString()}</p>
+                       <p>Cicilan per Bulan: Rp${cicilan.toLocaleString()}</p>
+                       <table>
+                           <tr>
+                               <th>Bulan ke-</th>
+                               <th>Pembayaran</th>
+                               <th>Sisa Cicilan</th>
+                           </tr>`;
+            
+            let sisa = harga;
+            for (let i = 1; i <= lama; i++) {
+                const bayar = Math.min(cicilan, sisa);
+                sisa -= bayar;
+                html += `<tr>
+                            <td>${i}</td>
+                            <td>Rp${bayar.toLocaleString()}</td>
+                            <td>Rp${Math.max(0, sisa).toLocaleString()}</td>
+                        </tr>`;
+                if (sisa <= 0) break;
+            }
+            
+            html += `</table>`;
+            document.getElementById('result1').innerHTML = html;
+            document.getElementById('result1').style.display = 'block';
+        }
+        
+        // Fungsi 2: Hitung Diskon
+        function hitungDiskon() {
+            const harga = parseFloat(document.getElementById('harga-diskon').value);
+            const jumlah = parseInt(document.getElementById('jumlah-barang').value);
+            
+            if (isNaN(harga) || isNaN(jumlah)) {
+                alert("Harap isi semua field dengan benar!");
+                return;
+            }
+            
+            const total = harga * jumlah;
+            let diskon = 0;
+            
+            if (jumlah >= 3) {
+                diskon = total * 0.05;
+            }
+            
+            const totalBayar = total - diskon;
+            
+            let html = `<h3>Rincian Pembelian</h3>
+                       <p>Harga Satuan: Rp${harga.toLocaleString()}</p>
+                       <p>Jumlah Barang: ${jumlah}</p>
+                       <p>Total Harga: Rp${total.toLocaleString()}</p>
+                       <p>Diskon: Rp${diskon.toLocaleString()} (${jumlah >= 3 ? '5%' : '0%'})</p>
+                       <p><strong>Total Bayar: Rp${totalBayar.toLocaleString()}</strong></p>`;
+            
+            document.getElementById('result2').innerHTML = html;
+            document.getElementById('result2').style.display = 'block';
+        }
+        
+        // Fungsi 3: Hitung Bunga
+        function hitungBunga() {
+            const tabungan = parseFloat(document.getElementById('tabungan-awal').value);
+            const bunga = parseFloat(document.getElementById('bunga').value);
+            const lama = parseInt(document.getElementById('lama-tabungan').value);
+            
+            if (isNaN(tabungan) || isNaN(bunga) || isNaN(lama)) {
+                alert("Harap isi semua field dengan benar!");
+                return;
+            }
+            
+            let html = `<h3>Rincian Bunga Majemuk</h3>
+                       <p>Tabungan Awal: Rp${tabungan.toLocaleString()}</p>
+                       <p>Bunga per Bulan: ${bunga}%</p>
+                       <table>
+                           <tr>
+                               <th>Bulan ke-</th>
+                               <th>Saldo Awal</th>
+                               <th>Bunga</th>
+                               <th>Saldo Akhir</th>
+                           </tr>`;
+            
+            let saldo = tabungan;
+            for (let i = 1; i <= lama; i++) {
+                const bungaBulan = saldo * (bunga / 100);
+                const saldoAkhir = saldo + bungaBulan;
+                
+                html += `<tr>
+                            <td>${i}</td>
+                            <td>Rp${saldo.toLocaleString()}</td>
+                            <td>Rp${bungaBulan.toLocaleString()}</td>
+                            <td>Rp${saldoAkhir.toLocaleString()}</td>
+                        </tr>`;
+                
+                saldo = saldoAkhir;
+            }
+            
+            html += `</table>`;
+            document.getElementById('result3').innerHTML = html;
+            document.getElementById('result3').style.display = 'block';
+        }
+        
+        // Fungsi 4: Cek Penerimaan Polri
+        function cekPenerimaanPolri() {
+            const jenisKelamin = document.getElementById('jenis-kelamin').value;
+            const tinggi = parseInt(document.getElementById('tinggi-badan').value);
+            const berat = parseInt(document.getElementById('berat-badan').value);
+            const ipk = parseFloat(document.getElementById('ipk').value);
+            const pendidikan = document.getElementById('pendidikan').value;
+            const usia = parseInt(document.getElementById('usia').value);
+            
+            // Validasi input
+            if (!jenisKelamin || isNaN(tinggi) || isNaN(berat) || isNaN(ipk) || !pendidikan || isNaN(usia)) {
+                alert("Harap isi semua field dengan benar!");
+                return;
+            }
+            
+            let diterima = false;
+            let alasan = [];
+            
+            // Hitung berat badan ideal
+            const beratIdeal = jenisKelamin === 'L' ? tinggi - 110 : tinggi - 109;
+            
+            // Cek kriteria
+            if (jenisKelamin === 'P') {
+                // Kriteria perempuan
+                if (!(tinggi >= 165 && tinggi <= 175)) {
+                    alasan.push("Tinggi badan harus 165-175 cm untuk perempuan");
+                }
+                if (Math.abs(berat - beratIdeal) > 2) {
+                    alasan.push(`Berat badan ideal untuk tinggi ${tinggi}cm adalah ${beratIdeal}kg ±2kg`);
+                }
+            } else {
+                // Kriteria laki-laki
+                if (!(tinggi >= 175 && tinggi <= 185)) {
+                    alasan.push("Tinggi badan harus 175-185 cm untuk laki-laki");
+                }
+                if (Math.abs(berat - beratIdeal) > 2) {
+                    alasan.push(`Berat badan ideal untuk tinggi ${tinggi}cm adalah ${beratIdeal}kg ±2kg`);
+                }
+            }
+            
+            // Kriteria umum
+            if (ipk < 3.0) {
+                alasan.push("IPK minimal 3.0");
+            }
+            if (pendidikan === 'SMA') {
+                alasan.push("Pendidikan minimal D-III");
+            }
+            if (jenisKelamin === 'P' && !(usia >= 21 && usia <= 24)) {
+                alasan.push("Usia harus 21-24 tahun untuk perempuan");
+            }
+            if (jenisKelamin === 'L' && !(usia >= 22 && usia <= 25)) {
+                alasan.push("Usia harus 22-25 tahun untuk laki-laki");
+            }
+            
+            // Jika tidak ada alasan ditolak, berarti diterima
+            diterima = alasan.length === 0;
+            
+            // Tampilkan hasil
+            const resultDiv = document.getElementById('result4');
+            if (diterima) {
+                resultDiv.innerHTML = `<h3 style="color:green;">Selamat! Anda memenuhi syarat.</h3>`;
+                resultDiv.style.backgroundColor = '#e8f5e9';
+            } else {
+                let html = `<h3 style="color:red;">Maaf, Anda belum memenuhi syarat.</h3>
+                           <p>Alasan:</p>
+                           <ul>`;
+                
+                alasan.forEach(item => {
+                    html += `<li>${item}</li>`;
+                });
+                
+                html += `</ul>`;
+                resultDiv.innerHTML = html;
+                resultDiv.style.backgroundColor = '#ffebee';
+            }
+            resultDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<html>
+<head>
+    <title>Latihan JavaScript Lengkap</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .section {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 0;
+        }
+        button, input[type="button"] {
+            padding: 8px 15px;
+            margin: 5px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover, input[type="button"]:hover {
+            background-color: #2980b9;
+        }
+        table {
+            border-collapse: collapse;
+            margin: 15px auto;
+            width: 80%;
+        }
+        td {
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+        input[type="text"] {
+            padding: 5px;
+            width: 100px;
+        }
+        .output {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Latihan JavaScript 1</h1>
+    
+    
+    <div class="section">
+        <h2>1. Variabel</h2>
+        <div class="output">
+            <script>
+                var a, b, usia;
+                a = "Nama: ";
+                b = "Ardin";
+                usia = 3;
+                document.write(a + b + "<br>");
+                document.write("Usia: " + usia + " Tahun");
+            </script>
+        </div>
+    </div>
+    
+   
+    <div class="section">
+        <h2>2. Operator</h2>
+        <div class="output">
+            <script>
+                var a, b, tambah, kurang, kali, bagi, sisabagi;
+                a = 6;
+                b = 3;
+                tambah = a + b;
+                kurang = a - b;
+                kali = a * b;
+                bagi = a / b;
+                sisabagi = a % b;
+                
+                document.write("Hasil Tambah: " + tambah + "<br>");
+                document.write("Hasil Pengurangan: " + kurang + "<br>");
+                document.write("Hasil Perkalian: " + kali + "<br>");
+                document.write("Hasil Pembagian: " + bagi.toFixed(2) + "<br>");
+                document.write("Hasil MOD: " + sisabagi);
+            </script>
+        </div>
+    </div>
+    
+    
+    <div class="section">
+        <h2>3. Statement Kontrol (If-Else)</h2>
+        <div class="output">
+            <script>
+                var nilai = 80;
+                if(nilai >= 80) {
+                    document.write("Nilai A");
+                } else {
+                    document.write("Bukan Nilai A");
+                }
+            </script>
+        </div>
+    </div>
+    
+    
+    <div class="section">
+        <h2>4. Switch</h2>
+        <div class="output">
+            <script>
+                var nilai = 80;
+                switch(nilai) {
+                    case 80:
+                        document.write("Nilai A");
+                        break;
+                    default:
+                        document.write("Bukan Nilai A");
+                        break;
+                }
+            </script>
+        </div>
+    </div>
+    
+    
+    <div class="section">
+        <h2>5. Perulangan For</h2>
+        <div class="output">
+            <script>
+                document.write("Perulangan dari 1-10: ");
+                for(var a = 1; a <= 10; a++) {
+                    document.write(a + " ");
+                }
+            </script>
+        </div>
+    </div>
+    
+    
+    <div class="section">
+        <h2>6. Perulangan While</h2>
+        <div class="output">
+            <script>
+                document.write("Perulangan while 0-10: ");
+                var a = 0;
+                while(a <= 10) {
+                    document.write(a + " ");
+                    a++;
+                }
+            </script>
+        </div>
+    </div>
+    
+    
+    <div class="section">
+        <h2>7. Function Dasar</h2>
+        <form>
+            <input type="button" value="Masukkan Nilai" onclick="tampilkanNilai()"/>
+        </form>
+        <div id="nilaiOutput" class="output"></div>
+        <script>
+            function tampilkanNilai() {
+                var nilai = prompt("Masukkan Nilai Anda:");
+                document.getElementById("nilaiOutput").innerHTML = "Nilai Anda Adalah: " + nilai;
+            }
+        </script>
+    </div>
+    
+    
+    <div class="section">
+        <h2>8. Function dengan Parameter</h2>
+        <div class="output">
+            <script>
+                function hitungNilaiAkhir(tugas1, uts1, uas1) {
+                    var na = (tugas1 * 0.2) + (uts1 * 0.3) + (uas1 * 0.5);
+                    return na;
+                }
+                
+                var tugas = parseFloat(prompt("Masukkan Nilai Tugas:"));
+                var uts = parseFloat(prompt("Masukkan Nilai UTS:"));
+                var uas = parseFloat(prompt("Masukkan Nilai UAS:"));
+                
+                document.write("Nilai Akhir: " + hitungNilaiAkhir(tugas, uts, uas).toFixed(2));
+            </script>
+        </div>
+    </div>
+    
+    
+    <div class="section">
+        <h2>9. Objek Date</h2>
+        <div class="output">
+            <script>
+                var sekarang = new Date();
+                var hari = sekarang.getDay();
+                var namahari;
+                
+                switch(hari) {
+                    case 0: namahari = "Minggu"; break;
+                    case 1: namahari = "Senin"; break;
+                    case 2: namahari = "Selasa"; break;
+                    case 3: namahari = "Rabu"; break;
+                    case 4: namahari = "Kamis"; break;
+                    case 5: namahari = "Jumat"; break;
+                    case 6: namahari = "Sabtu"; break;
+                }
+                
+                var tgl = sekarang.getDate();
+                var bln = sekarang.getMonth() + 1;
+                var thn = sekarang.getFullYear();
+                
+                document.write("Sekarang adalah " + namahari + ", Tanggal: " + tgl + 
+                              ", Bulan: " + bln + ", Tahun: " + thn);
+            </script>
+        </div>
+    </div>
+    
+    
+    <div class="section">
+        <h2>10. Objek Window</h2>
+        <script>
+            window.defaultStatus = "Selamat Datang di Latihan JavaScript";
+        </script>
+        <input type="button" value="Tampilkan Alert" onclick="window.alert('Ini pesan alert')"/>
+    </div>
+    
+    
+    <div class="section">
+        <h2>11. Objek History</h2>
+        <form>
+            <input type="button" value="Mundur" onclick="window.history.back()"/>
+            <input type="button" value="Maju" onclick="window.history.forward()"/>
+            <a href="#" onclick="window.location.reload()">Refresh Halaman</a>
+        </form>
+    </div>
+    
+    
+    <div class="section">
+        <h2>12. Objek Location</h2>
+        <form>
+            <input type="button" value="Ganti Halaman (Replace)" onclick="window.location.replace('latfor.html')"/>
+            <input type="button" value="Ganti Halaman (Href)" onclick="window.location.href='latfor.html'"/>
+        </form>
+    </div>
+    
+   
+    <div class="section">
+        <h2>13. Objek Screen</h2>
+        <input type="button" value="Tampilkan Ukuran Layar" onclick="tampilkanUkuranLayar()"/>
+        <div id="screenInfo" class="output"></div>
+        <script>
+            function tampilkanUkuranLayar() {
+                var info = "Resolusi Layar: " + screen.width + "x" + screen.height + " px<br>" +
+                           "Kedalaman Warna: " + screen.colorDepth + " bit<br>" +
+                           "Lebar Available: " + screen.availWidth + " px";
+                document.getElementById("screenInfo").innerHTML = info;
+            }
+        </script>
+    </div>
+    
+    
+    <div class="section">
+        <h2>14. Kalkulator Sederhana</h2>
+        <form name="kalkulator">
+            <table>
+                <tr>
+                    <td>Nilai a</td>
+                    <td><input type="number" name="na"/></td>
+                </tr>
+                <tr>
+                    <td>Nilai b</td>
+                    <td><input type="number" name="nb"/></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="+" onclick="tambah()"/></td>
+                    <td><input type="button" value="-" onclick="kurang()"/></td>
+                </tr>
+                <tr>
+                    <td>Hasil Penjumlahan</td>
+                    <td><input type="text" name="hasiltambah" readonly/></td>
+                </tr>
+                <tr>
+                    <td>Hasil Pengurangan</td>
+                    <td><input type="text" name="hasilkurang" readonly/></td>
+                </tr>
+            </table>
+        </form>
+        <script>
+            function tambah() {
+                var a = parseInt(document.kalkulator.na.value) || 0;
+                var b = parseInt(document.kalkulator.nb.value) || 0;
+                document.kalkulator.hasiltambah.value = a + b;
+            }
+            
+            function kurang() {
+                var a = parseInt(document.kalkulator.na.value) || 0;
+                var b = parseInt(document.kalkulator.nb.value) || 0;
+                document.kalkulator.hasilkurang.value = a - b;
+            }
+        </script>
+    </div>
+</body>
+</html>
