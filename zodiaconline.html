@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Zodiak Online</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #4b0082;
+            text-align: center;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        select, input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #6a5acd;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #4b0082;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            display: none;
+        }
+        .zodiac-title {
+            color: #6a5acd;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .horoscope-item {
+            margin-bottom: 10px;
+        }
+        .horoscope-category {
+            font-weight: bold;
+            color: #4b0082;
+        }
+        .zodiac-image {
+            width: 100px;
+            height: 100px;
+            display: block;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Game Zodiak Online</h1>
+        
+        <div class="input-group">
+            <label for="day">Tanggal Lahir:</label>
+            <input type="number" id="day" min="1" max="31" placeholder="Masukkan tanggal (1-31)">
+        </div>
+        
+        <div class="input-group">
+            <label for="month">Bulan Lahir:</label>
+            <select id="month">
+                <option value="1">Januari</option>
+                <option value="2">Februari</option>
+                <option value="3">Maret</option>
+                <option value="4">April</option>
+                <option value="5">Mei</option>
+                <option value="6">Juni</option>
+                <option value="7">Juli</option>
+                <option value="8">Agustus</option>
+                <option value="9">September</option>
+                <option value="10">Oktober</option>
+                <option value="11">November</option>
+                <option value="12">Desember</option>
+            </select>
+        </div>
+        
+        <button onclick="getZodiac()">Lihat Ramalan Zodiak</button>
+        
+        <div class="result" id="result">
+            <div class="zodiac-title" id="zodiac-name"></div>
+            <img class="zodiac-image" id="zodiac-image" src="" alt="Zodiak">
+            
+            <div class="horoscope-item">
+                <span class="horoscope-category">Deskripsi:</span>
+                <span id="description"></span>
+            </div>
+            
+            <div class="horoscope-item">
+                <span class="horoscope-category">Kesehatan:</span>
+                <span id="health"></span>
+            </div>
+            
+            <div class="horoscope-item">
+                <span class="horoscope-category">Asmara:</span>
+                <span id="love"></span>
+            </div>
+            
+            <div class="horoscope-item">
+                <span class="horoscope-category">Keuangan:</span>
+                <span id="money"></span>
+            </div>
+            
+            <div class="horoscope-item">
+                <span class="horoscope-category">Karir:</span>
+                <span id="career"></span>
+            </div>
+            
+            <div class="horoscope-item">
+                <span class="horoscope-category">Ramalan Hari Ini:</span>
+                <span id="daily"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data zodiak
+        const zodiacData = {
+            aries: {
+                name: "Aries",
+                image: "https://i.imgur.com/JzV9hYF.png",
+                dateRange: "21 Maret - 19 April",
+                description: "Aries adalah tanda api pertama dalam zodiak, penuh dengan energi dan semangat.",
+                health: "Kesehatan cukup baik, tetapi hindari stres berlebihan.",
+                love: "Hari ini adalah hari yang baik untuk mengungkapkan perasaan.",
+                money: "Ada kemungkinan kejutan finansial yang menyenangkan.",
+                career: "Waktu yang tepat untuk mengambil inisiatif di tempat kerja.",
+                daily: "Hari ini membawa energi baru dan peluang menarik."
+            },
+            taurus: {
+                name: "Taurus",
+                image: "https://i.imgur.com/9XmQZbB.png",
+                dateRange: "20 April - 20 Mei",
+                description: "Taurus adalah tanda bumi yang praktis dan menyukai kestabilan.",
+                health: "Perhatikan pola makan dan istirahat yang cukup.",
+                love: "Hubungan yang stabil akan semakin mendalam.",
+                money: "Keuangan stabil, tetapi hindari pemborosan.",
+                career: "Kerja keras Anda akan mulai membuahkan hasil.",
+                daily: "Hari yang baik untuk menikmati hal-hal sederhana."
+            },
+            gemini: {
+                name: "Gemini",
+                image: "https://i.imgur.com/vVXmQYd.png",
+                dateRange: "21 Mei - 20 Juni",
+                description: "Gemini adalah tanda udara yang komunikatif dan penuh rasa ingin tahu.",
+                health: "Jaga kesehatan mental dengan istirahat yang cukup.",
+                love: "Komunikasi adalah kunci hubungan Anda hari ini.",
+                money: "Ada kemungkinan penghasilan tambahan dari sumber tak terduga.",
+                career: "Ide-ide kreatif Anda akan mendapat apresiasi.",
+                daily: "Hari yang sibuk tetapi menyenangkan dengan banyak interaksi sosial."
+            },
+            cancer: {
+                name: "Cancer",
+                image: "https://i.imgur.com/5WXmQYd.png",
+                dateRange: "21 Juni - 22 Juli",
+                description: "Cancer adalah tanda air yang emosional dan penuh perhatian.",
+                health: "Perhatikan kesehatan emosional Anda hari ini.",
+                love: "Waktu yang tepat untuk memperdalam hubungan dengan pasangan.",
+                money: "Hindari pengeluaran impulsif, fokus pada kebutuhan.",
+                career: "Intuisi Anda akan membantu dalam pengambilan keputusan.",
+                daily: "Hari yang baik untuk merawat diri dan orang terdekat."
+            },
+            leo: {
+                name: "Leo",
+                image: "https://i.imgur.com/8WXmQYd.png",
+                dateRange: "23 Juli - 22 Agustus",
+                description: "Leo adalah tanda api yang percaya diri dan penuh karisma.",
+                health: "Energi fisik Anda sedang tinggi, manfaatkan dengan baik.",
+                love: "Daya tarik Anda sedang tinggi, manfaatkan momen ini.",
+                money: "Kesempatan finansial baik, tetapi tetap bijak.",
+                career: "Kepemimpinan Anda akan diakui hari ini.",
+                daily: "Hari yang penuh percaya diri dan kesuksesan kecil."
+            },
+            virgo: {
+                name: "Virgo",
+                image: "https://i.imgur.com/7WXmQYd.png",
+                dateRange: "23 Agustus - 22 September",
+                description: "Virgo adalah tanda bumi yang analitis dan detail-oriented.",
+                health: "Perhatikan pola makan dan pencernaan Anda.",
+                love: "Kesabaran dan perhatian kecil akan berarti besar.",
+                money: "Perencanaan keuangan Anda mulai menunjukkan hasil.",
+                career: "Kerja detail Anda akan mendapat pengakuan.",
+                daily: "Hari yang produktif untuk menyelesaikan tugas-tugas."
+            },
+            libra: {
+                name: "Libra",
+                image: "https://i.imgur.com/6WXmQYd.png",
+                dateRange: "23 September - 22 Oktober",
+                description: "Libra adalah tanda udara yang mencintai harmoni dan keadilan.",
+                health: "Keseimbangan antara kerja dan istirahat penting hari ini.",
+                love: "Waktu yang tepat untuk menyelesaikan konflik hubungan.",
+                money: "Keputusan finansial yang seimbang akan membawa hasil.",
+                career: "Kemampuan diplomasi Anda sangat berguna hari ini.",
+                daily: "Hari yang baik untuk mencari keseimbangan dalam segala hal."
+            },
+            scorpio: {
+                name: "Scorpio",
+                image: "https://i.imgur.com/5XXmQYd.png",
+                dateRange: "23 Oktober - 21 November",
+                description: "Scorpio adalah tanda air yang intens dan penuh misteri.",
+                health: "Luangkan waktu untuk relaksasi dan melepas stres.",
+                love: "Hubungan akan mengalami kedalaman baru hari ini.",
+                money: "Intuisi Anda tajam dalam hal keuangan, ikuti naluri.",
+                career: "Transformasi positif sedang terjadi dalam karir Anda.",
+                daily: "Hari yang penuh dengan wawasan dan perubahan halus."
+            },
+            sagittarius: {
+                name: "Sagittarius",
+                image: "https://i.imgur.com/4WXmQYd.png",
+                dateRange: "22 November - 21 Desember",
+                description: "Sagittarius adalah tanda api yang suka petualangan dan kebebasan.",
+                health: "Energi fisik Anda tinggi, baik untuk olahraga.",
+                love: "Petualangan baru dalam hubungan mungkin terjadi.",
+                money: "Kesempatan dari sumber tak terduga mungkin muncul.",
+                career: "Ide-ide besar Anda mulai mendapat tempat.",
+                daily: "Hari yang menyenangkan dengan banyak inspirasi baru."
+            },
+            capricorn: {
+                name: "Capricorn",
+                image: "https://i.imgur.com/3WXmQYd.png",
+                dateRange: "22 Desember - 19 Januari",
+                description: "Capricorn adalah tanda bumi yang ambisius dan disiplin.",
+                health: "Jangan abaikan tanda-tanda kelelahan kecil.",
+                love: "Stabilitas dalam hubungan adalah prioritas hari ini.",
+                money: "Hasil dari kerja keras mulai terlihat.",
+                career: "Tangga kesuksesan sedang Anda panjat dengan mantap.",
+                daily: "Hari yang baik untuk fokus pada tujuan jangka panjang."
+            },
+            aquarius: {
+                name: "Aquarius",
+                image: "https://i.imgur.com/2WXmQYd.png",
+                dateRange: "20 Januari - 18 Februari",
+                description: "Aquarius adalah tanda udara yang inovatif dan humanis.",
+                health: "Kesehatan mental perlu diperhatikan hari ini.",
+                love: "Komunikasi terbuka akan memperkuat hubungan.",
+                money: "Ide-ide kreatif bisa menghasilkan keuntungan.",
+                career: "Kolaborasi akan membawa hasil terbaik hari ini.",
+                daily: "Hari yang penuh dengan ide-ide revolusioner."
+            },
+            pisces: {
+                name: "Pisces",
+                image: "https://i.imgur.com/1WXmQYd.png",
+                dateRange: "19 Februari - 20 Maret",
+                description: "Pisces adalah tanda air yang intuitif dan penuh empati.",
+                health: "Istirahat yang cukup sangat penting hari ini.",
+                love: "Koneksi emosional akan terasa lebih dalam.",
+                money: "Intuisi Anda membantu dalam keputusan finansial.",
+                career: "Kreativitas Anda sedang berada di puncak.",
+                daily: "Hari yang baik untuk merenung dan berimajinasi."
+            }
+        };
+
+        function getZodiac() {
+            const day = parseInt(document.getElementById('day').value);
+            const month = parseInt(document.getElementById('month').value);
+            
+            // Validasi input
+            if (isNaN(day) || day < 1 || day > 31) {
+                alert("Masukkan tanggal yang valid (1-31)");
+                return;
+            }
+            
+            // Menentukan zodiak berdasarkan tanggal dan bulan
+            let zodiac;
+            
+            if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) {
+                zodiac = zodiacData.aries;
+            } else if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) {
+                zodiac = zodiacData.taurus;
+            } else if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) {
+                zodiac = zodiacData.gemini;
+            } else if ((month === 6 && day >= 21) || (month === 7 && day <= 22)) {
+                zodiac = zodiacData.cancer;
+            } else if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) {
+                zodiac = zodiacData.leo;
+            } else if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) {
+                zodiac = zodiacData.virgo;
+            } else if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) {
+                zodiac = zodiacData.libra;
+            } else if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) {
+                zodiac = zodiacData.scorpio;
+            } else if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) {
+                zodiac = zodiacData.sagittarius;
+            } else if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) {
+                zodiac = zodiacData.capricorn;
+            } else if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) {
+                zodiac = zodiacData.aquarius;
+            } else {
+                zodiac = zodiacData.pisces;
+            }
+            
+            // Menampilkan hasil
+            document.getElementById('zodiac-name').textContent = `${zodiac.name} (${zodiac.dateRange})`;
+            document.getElementById('zodiac-image').src = zodiac.image;
+            document.getElementById('description').textContent = zodiac.description;
+            document.getElementById('health').textContent = zodiac.health;
+            document.getElementById('love').textContent = zodiac.love;
+            document.getElementById('money').textContent = zodiac.money;
+            document.getElementById('career').textContent = zodiac.career;
+            document.getElementById('daily').textContent = zodiac.daily;
+            
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
