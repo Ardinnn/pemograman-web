@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,76 +8,117 @@
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f0f8ff;
-            max-width: 600px;
-            margin: 0 auto;
+            margin: 0;
             padding: 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
         }
         .container {
             background-color: white;
             border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 25px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
         }
         h1 {
             color: #4b0082;
             text-align: center;
+            margin-bottom: 25px;
         }
         .input-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-weight: bold;
             color: #333;
         }
         select, input {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 16px;
+            transition: border 0.3s;
+        }
+        select:focus, input:focus {
+            border-color: #6a5acd;
+            outline: none;
         }
         button {
             background-color: #6a5acd;
             color: white;
             border: none;
-            padding: 12px 20px;
+            padding: 14px 20px;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
             width: 100%;
-            margin-top: 10px;
-            transition: background-color 0.3s;
+            margin-top: 15px;
+            transition: background-color 0.3s, transform 0.2s;
         }
         button:hover {
             background-color: #4b0082;
         }
+        button:active {
+            transform: scale(0.98);
+        }
         .result {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 5px;
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 8px;
             background-color: #f9f9f9;
             display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .zodiac-title {
             color: #6a5acd;
-            font-size: 24px;
-            margin-bottom: 10px;
+            font-size: 26px;
+            margin-bottom: 15px;
+            text-align: center;
         }
         .horoscope-item {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            line-height: 1.5;
         }
         .horoscope-category {
             font-weight: bold;
             color: #4b0082;
+            display: inline-block;
+            min-width: 120px;
         }
         .zodiac-image {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             display: block;
-            margin: 0 auto 15px;
+            margin: 0 auto 20px;
             border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #6a5acd;
+        }
+        .error-message {
+            color: #d9534f;
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+            display: none;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            .horoscope-category {
+                display: block;
+                margin-bottom: 5px;
+            }
         }
     </style>
 </head>
@@ -107,6 +148,8 @@
                 <option value="12">Desember</option>
             </select>
         </div>
+        
+        <div class="error-message" id="error-message"></div>
         
         <button onclick="getZodiac()">Lihat Ramalan Zodiak</button>
         
@@ -283,13 +326,74 @@
             }
         };
 
+        const dayInput = document.getElementById('day');
+        const monthSelect = document.getElementById('month');
+        const errorElement = document.getElementById('error-message');
+
+        // Fungsi untuk mengecek tahun kabisat
+        function isLeapYear(year) {
+            return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+        }
+
+        // Fungsi untuk mengupdate batas tanggal berdasarkan bulan
+        function updateMaxDays() {
+            const month = parseInt(monthSelect.value);
+            const currentYear = new Date().getFullYear();
+            let maxDay = 31;
+            
+            if (month === 2) { // Februari
+                maxDay = 29; // Selalu set maksimal 29 untuk Februari
+                dayInput.placeholder = "Masukkan tanggal (1-29)";
+            } else if ([4, 6, 9, 11].includes(month)) { // Bulan dengan 30 hari
+                maxDay = 30;
+                dayInput.placeholder = "Masukkan tanggal (1-30)";
+            } else { // Bulan dengan 31 hari
+                maxDay = 31;
+                dayInput.placeholder = "Masukkan tanggal (1-31)";
+            }
+            
+            dayInput.max = maxDay;
+            
+            // Jika nilai saat ini melebihi max, set ke max
+            if (parseInt(dayInput.value) > maxDay) {
+                dayInput.value = maxDay;
+            }
+        }
+
+        // Fungsi untuk validasi tanggal
+        function validateDate(day, month) {
+            // Validasi dasar
+            if (isNaN(day) || day < 1) {
+                errorElement.textContent = "Masukkan tanggal yang valid";
+                errorElement.style.display = 'block';
+                return false;
+            }
+            
+            // Dapatkan max day yang sesuai
+            let maxDay = 31;
+            if (month === 2) {
+                maxDay = 29; // Februari selalu maksimal 29
+            } else if ([4, 6, 9, 11].includes(month)) {
+                maxDay = 30;
+            }
+            
+            if (day > maxDay) {
+                errorElement.textContent = `Bulan yang dipilih hanya memiliki maksimal ${maxDay} hari`;
+                errorElement.style.display = 'block';
+                return false;
+            }
+            
+            errorElement.style.display = 'none';
+            return true;
+        }
+
         function getZodiac() {
-            const day = parseInt(document.getElementById('day').value);
-            const month = parseInt(document.getElementById('month').value);
+            const day = parseInt(dayInput.value);
+            const month = parseInt(monthSelect.value);
             
             // Validasi input
-            if (isNaN(day) || day < 1 || day > 31) {
-                alert("Masukkan tanggal yang valid (1-31)");
+            if (!validateDate(day, month)) {
+                document.getElementById('result').style.display = 'none';
                 return;
             }
             
@@ -333,7 +437,21 @@
             document.getElementById('daily').textContent = zodiac.daily;
             
             document.getElementById('result').style.display = 'block';
+            
+            // Scroll ke hasil
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
         }
+
+        // Event listeners
+        monthSelect.addEventListener('change', updateMaxDays);
+        dayInput.addEventListener('input', function() {
+            const day = parseInt(this.value);
+            const month = parseInt(monthSelect.value);
+            validateDate(day, month);
+        });
+
+        // Panggil saat halaman pertama kali dimuat
+        updateMaxDays();
     </script>
 </body>
 </html>
